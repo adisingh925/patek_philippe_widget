@@ -17,7 +17,7 @@
     <ImageView
         android:id="@+id/week"
         android:layout_width="wrap_content"
-        android:src="@drawable/large_year_week"
+        android:src="@drawable/large_large_year_week"
         android:layout_centerInParent="true"
         android:layout_height="wrap_content"
         />
@@ -25,7 +25,7 @@
     <ImageView
         android:id="@+id/day"
         android:layout_width="wrap_content"
-        android:src="@drawable/large_week"
+        android:src="@drawable/large_large_week"
         android:layout_centerInParent="true"
         android:layout_height="wrap_content"
         />
@@ -38,7 +38,7 @@
         android:layout_alignTop="@id/clock"
         android:gravity="center"
         android:textSize="22sp"
-        android:layout_marginEnd="32dp"
+        android:layout_marginEnd="34dp"
         android:textColor="@color/black"
         android:layout_height="wrap_content"/>
 </RelativeLayout>

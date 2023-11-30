@@ -56,21 +56,29 @@ class MyAppWidgetProvider : AppWidgetProvider() {
         appWidgetId: Int,
         newOptions: Bundle?
     ) {
-        appWidgetManager?.updateAppWidget(
-            appWidgetId, getRemoteViews(
-                context!!, newOptions!!.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH),
-                newOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT)
-            )
+
+        val remoteViews = getRemoteViews(
+            context!!, newOptions!!.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH),
+            newOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT)
         )
 
-        if (context != null) {
-            updateAppWidget(
-                context, appWidgetManager!!, appWidgetId, getRemoteViews(
-                    context, newOptions!!.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH),
-                    newOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT)
-                )
-            )
-        }
+        // Get the current time
+        val calendar = Calendar.getInstance()
+        val dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK)
+        val weekOfYear = calendar.get(Calendar.WEEK_OF_YEAR)
+        val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
+
+        // Calculate angles for each hand
+        val weekAngle = (360.0 / 7.0 * (dayOfWeek - 1)).toFloat()
+        val yearWeekAngle = (360.0 / 53.0 * weekOfYear).toFloat()
+
+        remoteViews.setFloat(R.id.week, "setRotation", yearWeekAngle)
+        remoteViews.setFloat(R.id.day, "setRotation", weekAngle)
+        remoteViews.setTextViewText(R.id.date, dayOfMonth.toString())
+
+        appWidgetManager?.updateAppWidget(
+            appWidgetId, remoteViews
+        )
     }
 
     /**
@@ -104,18 +112,18 @@ class MyAppWidgetProvider : AppWidgetProvider() {
 
         Log.d("MyAppWidgetProvider", "getRemoteViews: $rows x $columns")
 
-        return if ((rows >= 3 && columns == 3) || (rows == 3 && columns >= 3)) {
-            Log.d("MyAppWidgetProvider", "getRemoteViews: 1x1")
+        return if ((rows == 3 && columns >= 3)) {
             RemoteViews(context.packageName, R.layout.widget_layout)
-        } else if (rows >= 4 && columns == 4) {
+        } else if (rows >= 3 && columns == 3) {
+            RemoteViews(context.packageName, R.layout.medium_widget_layout)
+        } else if ((rows >= 4 && columns == 4)) {
             RemoteViews(context.packageName, R.layout.large_widget_layout)
-        } else if (rows == 4 && columns >= 5) {
-            // Get appropriate remote view.
-            RemoteViews(context.packageName, R.layout.extra_large_widget_layout)
+        } else if (rows == 4 && columns >= 4) {
+            RemoteViews(context.packageName, R.layout.large_large_widget_layout)
         } else if (rows >= 6 && columns == 5) {
             RemoteViews(context.packageName, R.layout.extra_extra_large_widget_layout)
         } else {
-            RemoteViews(context.packageName, R.layout.extra_extra_large_widget_layout)
+            RemoteViews(context.packageName, R.layout.widget_layout)
         }
     }
 }

@@ -5,11 +5,11 @@
 
     <AnalogClock
         android:id="@+id/clock"
-        android:dial="@drawable/watch_dial"
-        android:hand_hour="@drawable/hour_hand"
-        android:hand_minute="@drawable/minute_hand"
-        android:hand_second="@drawable/second_hand"
-        android:layout_width="wrap_content"
+        android:dial="@drawable/large_dial"
+        android:hand_hour="@drawable/large_hour_hand"
+        android:hand_minute="@drawable/large_minute_hand"
+        android:hand_second="@drawable/large_second_hand"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         />
@@ -17,7 +17,7 @@
     <ImageView
         android:id="@+id/week"
         android:layout_width="wrap_content"
-        android:src="@drawable/year_week"
+        android:src="@drawable/extra_large_year_week"
         android:layout_centerInParent="true"
         android:layout_height="wrap_content"
         />
@@ -25,7 +25,7 @@
     <ImageView
         android:id="@+id/day"
         android:layout_width="wrap_content"
-        android:src="@drawable/week"
+        android:src="@drawable/extra_large_week"
         android:layout_centerInParent="true"
         android:layout_height="wrap_content"
         />
@@ -37,9 +37,9 @@
         android:layout_alignBottom="@id/clock"
         android:layout_alignTop="@id/clock"
         android:gravity="center"
-        android:text="50"
-        android:textSize="13sp"
-        android:layout_marginEnd="24dp"
+        android:textSize="20sp"
+        android:text="30"
+        android:layout_marginEnd="59dp"
         android:textColor="@color/black"
         android:layout_height="wrap_content"/>
 </RelativeLayout>

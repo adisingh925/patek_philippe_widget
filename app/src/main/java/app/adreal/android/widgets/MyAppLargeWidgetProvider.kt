@@ -3,6 +3,7 @@ package app.adreal.android.widgets
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
+import android.os.Bundle
 import android.util.Log
 import android.widget.RemoteViews
 import java.util.Calendar
@@ -42,5 +43,14 @@ class MyAppLargeWidgetProvider : AppWidgetProvider() {
 
         // Update the widget
         appWidgetManager.updateAppWidget(appWidgetId, remoteViews)
+    }
+
+    override fun onAppWidgetOptionsChanged(
+        context: Context?,
+        appWidgetManager: AppWidgetManager?,
+        appWidgetId: Int,
+        newOptions: Bundle?
+    ) {
+        super.onAppWidgetOptionsChanged(context, appWidgetManager, appWidgetId, newOptions)
     }
 }

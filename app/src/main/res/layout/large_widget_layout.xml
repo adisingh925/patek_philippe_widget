@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <AnalogClock
+        android:id="@+id/clock"
+        android:dial="@drawable/large_dial"
+        android:hand_hour="@drawable/large_hour_hand"
+        android:hand_minute="@drawable/large_minute_hand"
+        android:hand_second="@drawable/large_second_hand"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        />
+
+    <ImageView
+        android:id="@+id/week"
+        android:layout_width="wrap_content"
+        android:src="@drawable/large_year_week"
+        android:layout_centerInParent="true"
+        android:layout_height="wrap_content"
+        />
+
+    <ImageView
+        android:id="@+id/day"
+        android:layout_width="wrap_content"
+        android:src="@drawable/large_week"
+        android:layout_centerInParent="true"
+        android:layout_height="wrap_content"
+        />
+
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_alignEnd="@id/clock"
+        android:layout_alignBottom="@id/clock"
+        android:layout_alignTop="@id/clock"
+        android:gravity="center"
+        android:textSize="22sp"
+        android:layout_marginEnd="43dp"
+        android:textColor="@color/black"
+        android:layout_height="wrap_content"/>
+</RelativeLayout>

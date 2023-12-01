@@ -9,8 +9,8 @@
         android:hand_hour="@drawable/hour_hand"
         android:hand_minute="@drawable/minute_hand"
         android:hand_second="@drawable/second_hand"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
         android:layout_centerInParent="true"
         />
 

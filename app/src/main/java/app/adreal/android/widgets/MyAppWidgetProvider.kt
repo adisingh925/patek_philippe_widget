@@ -10,7 +10,6 @@ import android.widget.RemoteViews
 import androidx.annotation.RequiresApi
 import java.util.Calendar
 
-
 class MyAppWidgetProvider : AppWidgetProvider() {
 
     @RequiresApi(Build.VERSION_CODES.S)
@@ -56,7 +55,6 @@ class MyAppWidgetProvider : AppWidgetProvider() {
         appWidgetId: Int,
         newOptions: Bundle?
     ) {
-
         val remoteViews = getRemoteViews(
             context!!, newOptions!!.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH),
             newOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT)

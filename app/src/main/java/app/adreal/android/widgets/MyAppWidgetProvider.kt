@@ -119,6 +119,7 @@ class MyAppWidgetProvider : AppWidgetProvider() {
         } else if ((rows >= 4 && columns == 4)) {
             RemoteViews(context.packageName, R.layout.large_widget_layout)
         } else if (rows >= 4 && columns > 4) {
+            Log.d("extra large","extra large")
             RemoteViews(context.packageName, R.layout.extra_extra_large_widget_layout)
         } else {
             RemoteViews(context.packageName, R.layout.widget_layout)

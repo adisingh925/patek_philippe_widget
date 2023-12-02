@@ -20,7 +20,12 @@ class MyAppWidgetProvider : AppWidgetProvider() {
     ) {
         Log.d("MyAppWidgetProvider", "onUpdate")
         for (appWidgetId in appWidgetIds) {
-            updateAppWidget(context, appWidgetManager, appWidgetId)
+            updateAppWidget(
+                context, appWidgetManager, appWidgetId, getRemoteViews(
+                    context, (AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH).toInt(),
+                    (AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT).toInt()
+                )
+            )
         }
     }
 
@@ -28,7 +33,7 @@ class MyAppWidgetProvider : AppWidgetProvider() {
         context: Context,
         appWidgetManager: AppWidgetManager,
         appWidgetId: Int,
-        remoteViews: RemoteViews = RemoteViews(context.packageName, R.layout.widget_layout)
+        remoteViews: RemoteViews
     ) {
         // Get the current time
         val calendar = Calendar.getInstance()
@@ -109,19 +114,6 @@ class MyAppWidgetProvider : AppWidgetProvider() {
         val columns = getCellsForSize(minWidth)
 
         Log.d("MyAppWidgetProvider", "getRemoteViews: $rows x $columns")
-
-//        return if ((rows == 3 && columns >= 3)) {
-//            RemoteViews(context.packageName, R.layout.widget_layout)
-//        } else if (rows >= 3 && columns == 3) {
-//            RemoteViews(context.packageName, R.layout.widget_layout)
-//        } else if ((rows >= 4 && columns == 4)) {
-//            RemoteViews(context.packageName, R.layout.large_widget_layout)
-//        } else if (rows >= 4 && columns > 4) {
-//            Log.d("extra large","extra large")
-//            RemoteViews(context.packageName, R.layout.extra_extra_large_widget_layout)
-//        } else {
-//            RemoteViews(context.packageName, R.layout.widget_layout)
-//        }
 
         return if ((rows == 3 && columns >= 3)) {
             RemoteViews(context.packageName, R.layout.widget_layout)

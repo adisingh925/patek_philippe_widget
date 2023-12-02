@@ -110,14 +110,34 @@ class MyAppWidgetProvider : AppWidgetProvider() {
 
         Log.d("MyAppWidgetProvider", "getRemoteViews: $rows x $columns")
 
+//        return if ((rows == 3 && columns >= 3)) {
+//            RemoteViews(context.packageName, R.layout.widget_layout)
+//        } else if (rows >= 3 && columns == 3) {
+//            RemoteViews(context.packageName, R.layout.widget_layout)
+//        } else if ((rows >= 4 && columns == 4)) {
+//            RemoteViews(context.packageName, R.layout.large_widget_layout)
+//        } else if (rows >= 4 && columns > 4) {
+//            Log.d("extra large","extra large")
+//            RemoteViews(context.packageName, R.layout.extra_extra_large_widget_layout)
+//        } else {
+//            RemoteViews(context.packageName, R.layout.widget_layout)
+//        }
+
         return if ((rows == 3 && columns >= 3)) {
             RemoteViews(context.packageName, R.layout.widget_layout)
         } else if (rows >= 3 && columns == 3) {
             RemoteViews(context.packageName, R.layout.widget_layout)
-        } else if ((rows >= 4 && columns == 4)) {
+        } else if ((rows == 4 && columns >= 4)) {
             RemoteViews(context.packageName, R.layout.large_widget_layout)
-        } else if (rows >= 4 && columns > 4) {
-            Log.d("extra large","extra large")
+        } else if (rows >= 4 && columns == 4) {
+            RemoteViews(context.packageName, R.layout.large_widget_layout)
+        } else if ((rows == 5 && columns >= 5)) {
+            RemoteViews(context.packageName, R.layout.extra_large_widget_layout)
+        } else if (rows >= 5 && columns == 5) {
+            RemoteViews(context.packageName, R.layout.extra_large_widget_layout)
+        } else if ((rows == 6 && columns >= 6)) {
+            RemoteViews(context.packageName, R.layout.extra_extra_large_widget_layout)
+        } else if (rows >= 6 && columns == 6) {
             RemoteViews(context.packageName, R.layout.extra_extra_large_widget_layout)
         } else {
             RemoteViews(context.packageName, R.layout.widget_layout)

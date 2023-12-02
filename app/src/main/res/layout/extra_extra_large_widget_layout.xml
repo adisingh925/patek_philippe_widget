@@ -9,8 +9,8 @@
         android:hand_hour="@drawable/large_hour_hand"
         android:hand_minute="@drawable/large_minute_hand"
         android:hand_second="@drawable/large_second_hand"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
+        android:layout_width="400dp"
+        android:layout_height="400dp"
         android:layout_centerInParent="true"
         />
 
@@ -38,7 +38,7 @@
         android:layout_alignTop="@id/clock"
         android:gravity="center"
         android:textSize="20sp"
-        android:layout_marginEnd="31dp"
+        android:layout_marginEnd="47dp"
         android:textColor="@color/black"
         android:layout_height="wrap_content"/>
 </RelativeLayout>

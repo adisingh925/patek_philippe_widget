@@ -8,9 +8,7 @@ import android.widget.RemoteViews
 import androidx.annotation.RequiresApi
 import java.time.LocalDate
 import java.time.temporal.IsoFields
-import java.time.temporal.WeekFields
 import java.util.Calendar
-import java.util.Locale
 
 object ClockFunctions {
 
@@ -23,15 +21,8 @@ object ClockFunctions {
         // Get the current time
         val calendar = Calendar.getInstance()
         val dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK)
-        val weekOfYear = calendar.get(Calendar.WEEK_OF_YEAR)
+        val weekOfYear = LocalDate.now().get(IsoFields.WEEK_OF_WEEK_BASED_YEAR)
         val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
-
-        Log.d(
-            "MyAppWidgetProvider",
-            "updateWidgetBasedOnRemoteViews: ${
-                LocalDate.now().get(IsoFields.WEEK_OF_WEEK_BASED_YEAR)
-            }"
-        )
 
         // Calculate angles for each hand
         val weekAngle = (360.0 / 7.0 * (dayOfWeek - 1)).toFloat()

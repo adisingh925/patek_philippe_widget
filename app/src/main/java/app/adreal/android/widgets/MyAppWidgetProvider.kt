@@ -1,14 +1,21 @@
 package app.adreal.android.widgets
 
+import android.app.AlarmManager
+import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.widget.RemoteViews
 import androidx.annotation.RequiresApi
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.PeriodicWorkRequestBuilder
 import java.util.Calendar
+import java.util.concurrent.TimeUnit
+
 
 class MyAppWidgetProvider : AppWidgetProvider() {
 
@@ -18,39 +25,29 @@ class MyAppWidgetProvider : AppWidgetProvider() {
         appWidgetManager: AppWidgetManager,
         appWidgetIds: IntArray
     ) {
-        Log.d("MyAppWidgetProvider", "onUpdate")
         for (appWidgetId in appWidgetIds) {
-            updateAppWidget(
-                context, appWidgetManager, appWidgetId, getRemoteViews(
+            try {
+                Log.d("MyAppWidgetProvider", "onUpdate - try")
+
+                val remoteViews = ClockFunctions.getRemoteViews(
                     context, (AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH).toInt(),
                     (AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT).toInt()
                 )
-            )
+
+                ClockFunctions.updateWidgetBasedOnRemoteViews(
+                    appWidgetManager, appWidgetId, remoteViews
+                )
+            } catch (e: Exception) {
+                Log.d("MyAppWidgetProvider", "onUpdate - catch")
+
+                ClockFunctions.updateWidgetBasedOnRemoteViews(
+                    appWidgetManager, appWidgetId, RemoteViews(
+                        context.packageName,
+                        R.layout.widget_layout
+                    )
+                )
+            }
         }
-    }
-
-    private fun updateAppWidget(
-        context: Context,
-        appWidgetManager: AppWidgetManager,
-        appWidgetId: Int,
-        remoteViews: RemoteViews
-    ) {
-        // Get the current time
-        val calendar = Calendar.getInstance()
-        val dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK)
-        val weekOfYear = calendar.get(Calendar.WEEK_OF_YEAR)
-        val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
-
-        // Calculate angles for each hand
-        val weekAngle = (360.0 / 7.0 * (dayOfWeek - 1)).toFloat()
-        val yearWeekAngle = (360.0 / 53.0 * weekOfYear).toFloat()
-
-        remoteViews.setFloat(R.id.week, "setRotation", yearWeekAngle)
-        remoteViews.setFloat(R.id.day, "setRotation", weekAngle)
-        remoteViews.setTextViewText(R.id.date, dayOfMonth.toString())
-
-        // Update the widget
-        appWidgetManager.updateAppWidget(appWidgetId, remoteViews)
     }
 
     @RequiresApi(Build.VERSION_CODES.S)
@@ -60,79 +57,70 @@ class MyAppWidgetProvider : AppWidgetProvider() {
         appWidgetId: Int,
         newOptions: Bundle?
     ) {
-        val remoteViews = getRemoteViews(
+        Log.d("MyAppWidgetProvider", "onAppWidgetOptionsChanged")
+
+        val remoteViews = ClockFunctions.getRemoteViews(
             context!!, newOptions!!.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH),
             newOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT)
         )
 
-        // Get the current time
-        val calendar = Calendar.getInstance()
-        val dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK)
-        val weekOfYear = calendar.get(Calendar.WEEK_OF_YEAR)
-        val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
-
-        // Calculate angles for each hand
-        val weekAngle = (360.0 / 7.0 * (dayOfWeek - 1)).toFloat()
-        val yearWeekAngle = (360.0 / 53.0 * weekOfYear).toFloat()
-
-        remoteViews.setFloat(R.id.week, "setRotation", yearWeekAngle)
-        remoteViews.setFloat(R.id.day, "setRotation", weekAngle)
-        remoteViews.setTextViewText(R.id.date, dayOfMonth.toString())
-
-        appWidgetManager?.updateAppWidget(
-            appWidgetId, remoteViews
+        ClockFunctions.updateWidgetBasedOnRemoteViews(
+            appWidgetManager!!,
+            appWidgetId,
+            remoteViews
         )
     }
 
-    /**
-     * Returns number of cells needed for given size of the widget.
-     *
-     * @param size Widget size in dp.
-     * @return Size in number of cells.
-     */
-    private fun getCellsForSize(size: Int): Int {
-        var n = 2
-        while (70 * n - 30 < size) {
-            ++n
-        }
-        return n - 1
+    private fun scheduleWidgetUpdate(context: Context) {
+        Log.d("MyAppWidgetProvider", "scheduleWidgetUpdate")
+
+        val dailyWorkRequest = PeriodicWorkRequestBuilder<WorkManager>(
+            1,
+            TimeUnit.DAYS
+        ).build()
+
+        val workManager = androidx.work.WorkManager.getInstance(context)
+        workManager.enqueueUniquePeriodicWork(
+            "WidgetUpdateWork",
+            ExistingPeriodicWorkPolicy.UPDATE,
+            dailyWorkRequest
+        )
     }
 
-    /**
-     * Determine appropriate view based on width provided.
-     *
-     * @param minWidth
-     * @param minHeight
-     * @return
-     */
-    private fun getRemoteViews(
-        context: Context, minWidth: Int,
-        minHeight: Int
-    ): RemoteViews {
-        // First find out rows and columns based on width provided.
-        val rows = getCellsForSize(minHeight)
-        val columns = getCellsForSize(minWidth)
+    private fun setAlarm(context: Context) {
+        Log.d("MyAppWidgetProvider", "setAlarm")
 
-        Log.d("MyAppWidgetProvider", "getRemoteViews: $rows x $columns")
+        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
-        return if ((rows == 3 && columns >= 3)) {
-            RemoteViews(context.packageName, R.layout.widget_layout)
-        } else if (rows >= 3 && columns == 3) {
-            RemoteViews(context.packageName, R.layout.widget_layout)
-        } else if ((rows == 4 && columns >= 4)) {
-            RemoteViews(context.packageName, R.layout.large_widget_layout)
-        } else if (rows >= 4 && columns == 4) {
-            RemoteViews(context.packageName, R.layout.large_widget_layout)
-        } else if ((rows == 5 && columns >= 5)) {
-            RemoteViews(context.packageName, R.layout.extra_large_widget_layout)
-        } else if (rows >= 5 && columns == 5) {
-            RemoteViews(context.packageName, R.layout.extra_large_widget_layout)
-        } else if ((rows == 6 && columns >= 6)) {
-            RemoteViews(context.packageName, R.layout.extra_extra_large_widget_layout)
-        } else if (rows >= 6 && columns == 6) {
-            RemoteViews(context.packageName, R.layout.extra_extra_large_widget_layout)
-        } else {
-            RemoteViews(context.packageName, R.layout.widget_layout)
+        val calendar = Calendar.getInstance()
+        calendar.set(Calendar.HOUR_OF_DAY, 0)
+        calendar.set(Calendar.MINUTE, 0)
+        calendar.set(Calendar.SECOND, 0)
+
+        if (calendar.timeInMillis < System.currentTimeMillis()) {
+            calendar.add(Calendar.DAY_OF_MONTH, 1)
+        }
+
+        val intent = Intent(context, AlarmReceiver::class.java)
+        val pendingIntent = PendingIntent.getBroadcast(
+            context, 0, intent,
+            PendingIntent.FLAG_IMMUTABLE
+        )
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            if (alarmManager.canScheduleExactAlarms()) {
+                alarmManager.setExactAndAllowWhileIdle(
+                    AlarmManager.RTC_WAKEUP,
+                    calendar.timeInMillis,
+                    pendingIntent
+                )
+            } else {
+                alarmManager.setExact(
+                    AlarmManager.RTC_WAKEUP,
+                    calendar.timeInMillis,
+                    pendingIntent
+                )
+            }
         }
     }
 }

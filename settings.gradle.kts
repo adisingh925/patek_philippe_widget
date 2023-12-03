@@ -15,4 +15,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Widgets"
 include(":app")
- 
+include(":watchface")

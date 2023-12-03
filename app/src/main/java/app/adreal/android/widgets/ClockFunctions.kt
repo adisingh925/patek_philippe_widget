@@ -2,12 +2,19 @@ package app.adreal.android.widgets
 
 import android.appwidget.AppWidgetManager
 import android.content.Context
+import android.os.Build
 import android.util.Log
 import android.widget.RemoteViews
+import androidx.annotation.RequiresApi
+import java.time.LocalDate
+import java.time.temporal.IsoFields
+import java.time.temporal.WeekFields
 import java.util.Calendar
+import java.util.Locale
 
 object ClockFunctions {
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun updateWidgetBasedOnRemoteViews(
         appWidgetManager: AppWidgetManager,
         appWidgetId: Int,
@@ -18,6 +25,13 @@ object ClockFunctions {
         val dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK)
         val weekOfYear = calendar.get(Calendar.WEEK_OF_YEAR)
         val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
+
+        Log.d(
+            "MyAppWidgetProvider",
+            "updateWidgetBasedOnRemoteViews: ${
+                LocalDate.now().get(IsoFields.WEEK_OF_WEEK_BASED_YEAR)
+            }"
+        )
 
         // Calculate angles for each hand
         val weekAngle = (360.0 / 7.0 * (dayOfWeek - 1)).toFloat()

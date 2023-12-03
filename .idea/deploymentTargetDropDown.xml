@@ -10,12 +10,28 @@
               <deviceKey>
                 <Key>
                   <type value="VIRTUAL_DEVICE_PATH" />
-                  <value value="C:\Users\adisi\.android\avd\Pixel_4_API_31.avd" />
+                  <value value="C:\Users\adisi\.android\avd\Wear_OS_Small_Round_API_30.avd" />
                 </Key>
               </deviceKey>
             </Target>
           </targetSelectedWithDropDown>
-          <timeTargetWasSelectedWithDropDown value="2023-12-02T07:49:45.071946800Z" />
+          <timeTargetWasSelectedWithDropDown value="2023-12-03T18:16:57.819279900Z" />
+        </State>
+      </entry>
+      <entry key="watchface">
+        <State>
+          <targetSelectedWithDropDown>
+            <Target>
+              <type value="QUICK_BOOT_TARGET" />
+              <deviceKey>
+                <Key>
+                  <type value="VIRTUAL_DEVICE_PATH" />
+                  <value value="C:\Users\adisi\.android\avd\Wear_OS_Large_Round_API_30.avd" />
+                </Key>
+              </deviceKey>
+            </Target>
+          </targetSelectedWithDropDown>
+          <timeTargetWasSelectedWithDropDown value="2023-12-03T09:36:32.950568300Z" />
         </State>
       </entry>
     </value>

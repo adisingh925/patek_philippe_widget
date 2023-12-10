@@ -32,14 +32,14 @@
 
     <TextView
         android:id="@+id/date"
-        android:layout_width="20dp"
+        android:layout_width="wrap_content"
         android:layout_alignEnd="@id/clock"
         android:layout_alignBottom="@id/clock"
         android:layout_alignTop="@id/clock"
         android:gravity="center"
         android:textSize="16sp"
         android:text="30"
-        android:layout_marginEnd="28dp"
+        android:layout_marginEnd="28.5dp"
         android:textColor="@color/black"
         android:layout_height="wrap_content"/>
 </RelativeLayout>

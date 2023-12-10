@@ -10,7 +10,6 @@ import java.time.LocalDate
 import java.time.temporal.IsoFields
 import java.util.Calendar
 
-
 object ClockFunctions {
 
     @RequiresApi(Build.VERSION_CODES.O)

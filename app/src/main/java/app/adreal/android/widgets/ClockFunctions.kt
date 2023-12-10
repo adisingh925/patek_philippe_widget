@@ -10,6 +10,7 @@ import java.time.LocalDate
 import java.time.temporal.IsoFields
 import java.util.Calendar
 
+
 object ClockFunctions {
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -67,22 +68,12 @@ object ClockFunctions {
 
         Log.d("MyAppWidgetProvider", "getRemoteViews: $rows x $columns")
 
-        return if ((rows == 3 && columns >= 3)) {
-            RemoteViews(context.packageName, R.layout.widget_layout)
-        } else if (rows >= 3 && columns == 3) {
-            RemoteViews(context.packageName, R.layout.widget_layout)
-        } else if ((rows == 4 && columns >= 4)) {
-            RemoteViews(context.packageName, R.layout.large_widget_layout)
-        } else if (rows >= 4 && columns == 4) {
-            RemoteViews(context.packageName, R.layout.large_widget_layout)
-        } else if ((rows == 5 && columns >= 5)) {
-            RemoteViews(context.packageName, R.layout.extra_large_widget_layout)
-        } else if (rows >= 5 && columns == 5) {
-            RemoteViews(context.packageName, R.layout.extra_large_widget_layout)
-        } else if ((rows == 6 && columns >= 6)) {
+        return if (rows >= 6 && columns >= 6) {
             RemoteViews(context.packageName, R.layout.extra_extra_large_widget_layout)
-        } else if (rows >= 6 && columns == 6) {
-            RemoteViews(context.packageName, R.layout.extra_extra_large_widget_layout)
+        } else if (rows >= 5 && columns >= 5) {
+            RemoteViews(context.packageName, R.layout.extra_large_widget_layout)
+        } else if (rows >= 4 && columns >= 4) {
+            RemoteViews(context.packageName, R.layout.large_widget_layout)
         } else {
             RemoteViews(context.packageName, R.layout.widget_layout)
         }

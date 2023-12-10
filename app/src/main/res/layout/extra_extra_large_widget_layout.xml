@@ -37,7 +37,7 @@
         android:layout_alignBottom="@id/clock"
         android:layout_alignTop="@id/clock"
         android:gravity="center"
-        android:textSize="20sp"
+        android:textSize="26sp"
         android:layout_marginEnd="47dp"
         android:textColor="@color/black"
         android:layout_height="wrap_content"/>

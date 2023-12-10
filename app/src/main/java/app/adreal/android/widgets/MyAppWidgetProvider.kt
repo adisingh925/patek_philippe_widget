@@ -29,9 +29,11 @@ class MyAppWidgetProvider : AppWidgetProvider() {
             try {
                 Log.d("MyAppWidgetProvider", "onUpdate - try")
 
+                val options = appWidgetManager.getAppWidgetOptions(appWidgetId)
+
                 val remoteViews = ClockFunctions.getRemoteViews(
-                    context, (AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH).toInt(),
-                    (AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT).toInt()
+                    context, options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH),
+                    options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT)
                 )
 
                 ClockFunctions.updateWidgetBasedOnRemoteViews(
@@ -39,13 +41,6 @@ class MyAppWidgetProvider : AppWidgetProvider() {
                 )
             } catch (e: Exception) {
                 Log.d("MyAppWidgetProvider", "onUpdate - catch")
-
-                ClockFunctions.updateWidgetBasedOnRemoteViews(
-                    appWidgetManager, appWidgetId, RemoteViews(
-                        context.packageName,
-                        R.layout.widget_layout
-                    )
-                )
             }
         }
     }
